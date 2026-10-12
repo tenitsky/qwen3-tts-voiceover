@@ -1,0 +1,333 @@
+{
+ "id": "3f2c9a71-6b4e-4d1a-9c8f-2e7b5a1d0c31",
+ "revision": 0,
+ "last_node_id": 30,
+ "last_link_id": 2,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    0
+   ],
+   "size": [
+    560,
+    520
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "Start here",
+   "widgets_values": [
+    "# Qwen3-TTS - Built-in Voice\n\n**Red nodes are the ones you set.** Stages run left to right with a note under each.\n\n1. **Voice** - one of the 9 built-in voices (table in stage 2).\n2. **Script** - paste it; blank lines separate paragraphs.\n3. **Run.** The voiceover plays on the Save node.\n\nFull instructions: https://github.com/tenitsky/qwen3-tts-voiceover"
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 2,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    570
+   ],
+   "size": [
+    560,
+    560
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About Qwen3-TTS",
+   "widgets_values": [
+    "## About Qwen3-TTS\n\nQwen's open text-to-speech models (Apache-2.0), 1.7B parameters, 10 languages: English, Chinese, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian.\n\n- **CustomVoice** - 9 built-in voices, steerable with a style instruction.\n- **VoiceDesign** - a new voice from a written description.\n- **Base** - clones a voice from a short clip and its transcript.\n\n**The voice pool** is `ComfyUI/input/voices/`: every built-in voice rendered in its native language and in English (`Vivian`, `Vivian_en`, ...), plus the voices you design or add. Each clip has its transcript next to it, so it can be cloned.\n\nLong scripts are rendered in parts at sentence and paragraph breaks and joined with pauses; one part is at most about 2.5 minutes of speech.\n\nCode: https://github.com/QwenLM/Qwen3-TTS"
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 10,
+   "type": "Qwen3TTSLoader",
+   "pos": [
+    730,
+    120
+   ],
+   "size": [
+    500,
+    110
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "localized_name": "tts",
+     "name": "tts",
+     "type": "QWEN3TTS",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Qwen3TTSLoader",
+    "cnr_id": "comfyui-qwen3-tts"
+   },
+   "title": "Qwen3-TTS CustomVoice (loaded once)",
+   "widgets_values": [
+    "CustomVoice (9 built-in voices)",
+    "sdpa"
+   ]
+  },
+  {
+   "id": 3,
+   "type": "MarkdownNote",
+   "pos": [
+    700,
+    320
+   ],
+   "size": [
+    560,
+    300
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About the model",
+   "widgets_values": [
+    "## Model - loaded once\n\nThe three 1.7B models are downloaded by setup to `ComfyUI/models/qwen3-tts/`. One is kept loaded between runs (about 4 GB of VRAM); switching to a workflow with another model reloads in seconds. Each node checks that the loader holds the right model.\n\n**attention:** `sdpa` works everywhere; `flash_attention_2` only if flash-attn is installed."
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 20,
+   "type": "Qwen3TTSBuiltinVoice",
+   "pos": [
+    1430,
+    120
+   ],
+   "size": [
+    500,
+    620
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "tts",
+     "name": "tts",
+     "type": "QWEN3TTS",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "links": [
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Qwen3TTSBuiltinVoice",
+    "cnr_id": "comfyui-qwen3-tts"
+   },
+   "title": "Built-in Voice (voice, language, script)",
+   "widgets_values": [
+    "Welcome back. Today we are looking at something that changed how people tell stories: the human voice, recorded, shaped and shared.\n\nA voiceover is more than words read aloud. Pace, warmth and the small pauses between sentences decide whether a listener leans in or drifts away. So take your time, and let every sentence land.\n\nWhen you are ready, paste your own script here. It can be as long as you need: it is rendered in parts at sentence and paragraph breaks, and joined back together with natural pauses.",
+    "Ryan",
+    "English",
+    "",
+    42,
+    "fixed",
+    400,
+    0.25,
+    0.6
+   ],
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 30,
+   "type": "Qwen3TTSSave",
+   "pos": [
+    2130,
+    120
+   ],
+   "size": [
+    500,
+    220
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "wav_path",
+     "name": "wav_path",
+     "type": "STRING",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Qwen3TTSSave",
+    "cnr_id": "comfyui-qwen3-tts"
+   },
+   "title": "Save voiceover (WAV + MP3)",
+   "widgets_values": [
+    "builtin_voice"
+   ]
+  },
+  {
+   "id": 4,
+   "type": "MarkdownNote",
+   "pos": [
+    1400,
+    830
+   ],
+   "size": [
+    560,
+    860
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About stage 2",
+   "widgets_values": [
+    "## Speak\n\nPick a **voice**, set the **language** (or Auto), paste the **script**.\n\n**style** (optional) steers the delivery: *Calm, warm narration, unhurried.* *Excited and fast.* *Whispering.*\n\n| Voice | Native | Character |\n|---|---|---|\n| Ryan | English | dynamic male, strong rhythm |\n| Aiden | English | sunny American male |\n| Vivian | Chinese | bright young female |\n| Serena | Chinese | warm, gentle young female |\n| Uncle_Fu | Chinese | seasoned male, low and mellow |\n| Dylan | Chinese | youthful Beijing male |\n| Eric | Chinese | lively Chengdu male |\n| Ono_Anna | Japanese | playful Japanese female |\n| Sohee | Korean | warm Korean female |\n\nEvery voice speaks every language, best in its native one. Hear them all: the pool clips in `input/voices/`.\n\n**seed** is fixed: the same script, voice and seed give the same read. Change it for another take."
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 5,
+   "type": "MarkdownNote",
+   "pos": [
+    2100,
+    430
+   ],
+   "size": [
+    560,
+    220
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About stage 3",
+   "widgets_values": [
+    "## Save\n\nThe voiceover is saved as `output/voiceover/<prefix>_00001.wav` and `.mp3`, and plays on the node. Use the WAV as the voiceover for the LongCat or FlashHead avatar templates."
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  }
+ ],
+ "links": [
+  [
+   1,
+   10,
+   0,
+   20,
+   0,
+   "QWEN3TTS"
+  ],
+  [
+   2,
+   20,
+   0,
+   30,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [
+  {
+   "id": 1,
+   "title": "1. Model",
+   "bounding": [
+    700,
+    0,
+    560,
+    260
+   ],
+   "color": "#3f789e",
+   "font_size": 26,
+   "flags": {}
+  },
+  {
+   "id": 2,
+   "title": "2. Speak",
+   "bounding": [
+    1400,
+    0,
+    560,
+    770
+   ],
+   "color": "#a1309b",
+   "font_size": 26,
+   "flags": {}
+  },
+  {
+   "id": 3,
+   "title": "3. Save",
+   "bounding": [
+    2100,
+    0,
+    560,
+    370
+   ],
+   "color": "#8a4a4a",
+   "font_size": 26,
+   "flags": {}
+  }
+ ],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.6,
+   "offset": [
+    80,
+    80
+   ]
+  }
+ },
+ "version": 0.4
+}

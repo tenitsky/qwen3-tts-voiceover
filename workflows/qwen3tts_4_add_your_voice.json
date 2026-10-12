@@ -1,0 +1,222 @@
+{
+ "id": "e9b3c825-7a1f-4e6d-a5c2-1b8d4f0e9a64",
+ "revision": 0,
+ "last_node_id": 30,
+ "last_link_id": 1,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    0
+   ],
+   "size": [
+    560,
+    520
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "Start here",
+   "widgets_values": [
+    "# Qwen3-TTS - Add Your Voice to the Pool\n\n**Red nodes are the ones you set.** Stages run left to right with a note under each.\n\n1. **Load Audio** - upload your recording (3-20 s, clean).\n2. **transcript** - exactly what it says; **voice_name** - its name.\n3. **Run**, then use it in **Voice Clone** (workflow 3).\n\nFull instructions: https://github.com/tenitsky/qwen3-tts-voiceover"
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 2,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    570
+   ],
+   "size": [
+    560,
+    560
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About Qwen3-TTS",
+   "widgets_values": [
+    "## About Qwen3-TTS\n\nQwen's open text-to-speech models (Apache-2.0), 1.7B parameters, 10 languages: English, Chinese, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian.\n\n- **CustomVoice** - 9 built-in voices, steerable with a style instruction.\n- **VoiceDesign** - a new voice from a written description.\n- **Base** - clones a voice from a short clip and its transcript.\n\n**The voice pool** is `ComfyUI/input/voices/`: every built-in voice rendered in its native language and in English (`Vivian`, `Vivian_en`, ...), plus the voices you design or add. Each clip has its transcript next to it, so it can be cloned.\n\nLong scripts are rendered in parts at sentence and paragraph breaks and joined with pauses; one part is at most about 2.5 minutes of speech.\n\nCode: https://github.com/QwenLM/Qwen3-TTS"
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 20,
+   "type": "LoadAudio",
+   "pos": [
+    730,
+    120
+   ],
+   "size": [
+    500,
+    160
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "localized_name": "AUDIO",
+     "name": "AUDIO",
+     "type": "AUDIO",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadAudio",
+    "cnr_id": "comfy-core"
+   },
+   "title": "Load your recording",
+   "widgets_values": [
+    "example_recording.flac",
+    null,
+    null
+   ],
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 30,
+   "type": "Qwen3TTSSaveToPool",
+   "pos": [
+    1430,
+    120
+   ],
+   "size": [
+    500,
+    300
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "links": []
+    },
+    {
+     "localized_name": "voice_name",
+     "name": "voice_name",
+     "type": "STRING",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Qwen3TTSSaveToPool",
+    "cnr_id": "comfyui-qwen3-tts"
+   },
+   "title": "Save to Voice Pool (name + transcript)",
+   "widgets_values": [
+    "my_voice",
+    "Hello, and welcome. This is a short sample of my voice, so you can hear how I sound before you choose me for your next voiceover.",
+    false
+   ],
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 4,
+   "type": "MarkdownNote",
+   "pos": [
+    1400,
+    510
+   ],
+   "size": [
+    560,
+    420
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About this workflow",
+   "widgets_values": [
+    "## Add a voice to the pool\n\nUpload a clean recording, **3-20 seconds**, one person speaking, no music, then type **exactly** what it says in **transcript**. Saved as `input/voices/<voice_name>.flac` + `.txt`, ready for **Voice Clone** (workflow 3).\n\nThe workflow opens on `example_recording.flac` (a copy of the pool's Serena_en) with its transcript, so you can see it work. Only clone voices you have the right to use."
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  }
+ ],
+ "links": [
+  [
+   1,
+   20,
+   0,
+   30,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [
+  {
+   "id": 1,
+   "title": "1. Your recording",
+   "bounding": [
+    700,
+    0,
+    560,
+    310
+   ],
+   "color": "#b06634",
+   "font_size": 26,
+   "flags": {}
+  },
+  {
+   "id": 2,
+   "title": "2. Save to the pool",
+   "bounding": [
+    1400,
+    0,
+    560,
+    450
+   ],
+   "color": "#8a4a4a",
+   "font_size": 26,
+   "flags": {}
+  }
+ ],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.6,
+   "offset": [
+    80,
+    80
+   ]
+  }
+ },
+ "version": 0.4
+}

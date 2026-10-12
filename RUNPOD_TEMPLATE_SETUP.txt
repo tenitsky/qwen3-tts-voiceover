@@ -1,0 +1,161 @@
+################################################################################
+#  Qwen3-TTS Voiceover - RunPod template setup sheet
+#  Fill in RunPod > Templates > New Template with the values below.
+#  Console: https://console.runpod.io/user/templates
+#  Source of truth: README.md "RunPod public template settings" section.
+################################################################################
+
+
+# ------------------------------------------------------------------------------
+# 1. BASIC INFO
+# ------------------------------------------------------------------------------
+
+Template name:            Qwen3-TTS Voiceover - ComfyUI + JupyterLab
+Template type:            Pod
+Compute type:             NVIDIA / GPU
+Visibility:               Public (or Private while testing)
+
+
+# ------------------------------------------------------------------------------
+# 2. CONTAINER IMAGE
+# ------------------------------------------------------------------------------
+
+Container image:          runpod/comfyui:1.4.0-comfyuiv0.35.0-cuda12.8
+Registry credentials:     none (public image)
+
+# Same image as the LongCat and FlashHead templates: PyTorch 2.10 (CUDA 12.8), Python
+# 3.12, ComfyUI at /workspace/runpod-slim/ComfyUI, its venv .venv-cu128, /start.sh with
+# the JUPYTER_DISABLE_AUTH switch. Setup pins transformers 4.57.3 in that venv, which
+# qwen-tts needs (it does not import on transformers 5.x).
+# Image page: https://hub.docker.com/r/runpod/comfyui/tags
+
+
+# ------------------------------------------------------------------------------
+# 3. CONTAINER START COMMAND
+# ------------------------------------------------------------------------------
+# Paste the contents of runpod-start.json into the "Container Start Command" field
+# (the readable version is bootstrap.sh).
+# What it does: checks DNS for github.com + huggingface.co (falls back to
+# 1.1.1.1 / 8.8.8.8 if needed), clones this repo (10 retries), runs setup.sh.
+# setup.sh installs everything, downloads the models and finally runs /start.sh.
+# Raw file: https://raw.githubusercontent.com/tenitsky/qwen3-tts-voiceover/main/runpod-start.json
+
+
+# ------------------------------------------------------------------------------
+# 4. STORAGE
+# ------------------------------------------------------------------------------
+
+Container disk:           5 GB     # disposable system files only
+Volume disk:              0 GB     # do NOT use a pod-local volume disk
+Volume mount path:        /workspace
+
+# At deploy time, each user attaches their OWN Network Volume at /workspace.
+# Recommended size: 40 GB (models ~13.6 GB, plus ComfyUI, venv, voices, voiceovers).
+# setup.sh refuses to run if /workspace is the container disk or a Global Volume.
+# Storage types: https://docs.runpod.io/pods/storage/types
+
+
+# ------------------------------------------------------------------------------
+# 5. PORTS
+# ------------------------------------------------------------------------------
+
+Expose HTTP ports:        8188,8888
+Expose TCP ports:         (none)   # add 22 only if you want SSH
+
+#   8188  ComfyUI       main UI; workflows are in the Workflows sidebar
+#   8888  JupyterLab    listen to the voice pool (ComfyUI/input/voices), upload
+#                       recordings, download voiceovers (ComfyUI/output/voiceover)
+
+
+# ------------------------------------------------------------------------------
+# 6. ENVIRONMENT VARIABLES
+# ------------------------------------------------------------------------------
+# Put these in the template:
+
+JUPYTER_NO_AUTH=1
+# 1 = Jupyter with no login (anyone with the URL gets a shell).
+# For a login: JUPYTER_NO_AUTH=0 AND JUPYTER_PASSWORD=<token>.
+
+HF_TOKEN=
+# Optional. All three model repos are ungated; a token only raises HF rate limits.
+# Better as a RunPod secret:  HF_TOKEN={{ RUNPOD_SECRET_hf_token }}
+
+# Optional, normally left out of the template:
+#   JUPYTER_PASSWORD=          Jupyter token when JUPYTER_NO_AUTH=0
+#   QWEN_TTS_VERSION=          qwen-tts package version (default 0.1.1)
+#   HF_HOME=                   default /workspace/.cache/huggingface
+#
+# Never set COMFYUI_PATH: the image starts ComfyUI at /workspace/runpod-slim/ComfyUI.
+
+
+# ------------------------------------------------------------------------------
+# 7. README TAB
+# ------------------------------------------------------------------------------
+# Paste the contents of TEMPLATE_README.md into the template's README field
+# (kept under 2,000 characters).
+
+
+# ------------------------------------------------------------------------------
+# 8. WHAT GETS LOADED ON FIRST BOOT (automatic, ~13.6 GB)
+# ------------------------------------------------------------------------------
+# Custom nodes
+#   comfyui-qwen3-tts (bundled in this repo, custom_nodes/)
+#   Python packages added to ComfyUI's venv: qwen-tts==0.1.1 (no deps),
+#   transformers==4.57.3, accelerate==1.12.0, librosa, soundfile, sox, onnxruntime,
+#   einops. PyTorch stays the image's.
+#     https://github.com/QwenLM/Qwen3-TTS
+
+# Models, under ComfyUI/models/qwen3-tts/ (each: model, text tokenizer, 12 Hz speech
+# tokenizer; all Apache-2.0)
+#   Qwen3-TTS-12Hz-1.7B-CustomVoice/   ~4.5 GB   the 9 built-in voices
+#     https://huggingface.co/Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice
+#   Qwen3-TTS-12Hz-1.7B-VoiceDesign/   ~4.5 GB   a voice from a description
+#     https://huggingface.co/Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign
+#   Qwen3-TTS-12Hz-1.7B-Base/          ~4.5 GB   voice cloning
+#     https://huggingface.co/Qwen/Qwen3-TTS-12Hz-1.7B-Base
+
+# Voice pool (copied into ComfyUI/input/voices/, never over an existing file)
+#   16 clips + transcripts: Ryan, Aiden (English); Vivian, Serena, Uncle_Fu, Dylan,
+#   Eric (Chinese), Ono_Anna (Japanese), Sohee (Korean), each also as <Name>_en
+#   (English). Rendered once and shipped in samples/voices/, so no GPU run is needed.
+#   Also input/example_recording.flac (a copy of Serena_en) for workflow 4.
+
+# Workflows (copied into ComfyUI's Workflows sidebar; edited copies are never overwritten)
+#   qwen3tts_1_builtin_voice     a built-in voice reads your script (any length)
+#   qwen3tts_2_voice_design      describe a voice; its sample goes to the voice pool
+#   qwen3tts_3_voice_clone       any pool voice reads your script, the same throughout
+#   qwen3tts_4_add_your_voice    a recording + transcript into the voice pool
+# Voiceovers: ComfyUI/output/voiceover/<prefix>_00001.wav and .mp3
+
+
+# ------------------------------------------------------------------------------
+# 9. GPU
+# ------------------------------------------------------------------------------
+# About 4 GB of VRAM per model in bf16, one model loaded at a time (switching workflows
+# reloads in seconds): any 8 GB+ GPU works; RTX 4090, L4 or A5000 is comfortable.
+
+
+# ------------------------------------------------------------------------------
+# 10. FIRST-BOOT LOG CHECKLIST
+# ------------------------------------------------------------------------------
+#   "Network Volume workspace ready at /workspace"
+#   "GPU: <name>"                    (FATAL here = host driver too old; redeploy elsewhere)
+#   "qwen-tts 0.1.1 ready."
+#   "Voice pool: 16 clips in .../input/voices"
+#   model downloads ... "done."
+#   "Setup complete! Handing over to start script..."
+# A failed download stops setup; restart the pod and finished files are skipped.
+# First run: "[Qwen3-TTS] loaded Qwen3-TTS-12Hz-1.7B-CustomVoice (sdpa)", then
+# "N part(s) -> X s of speech".
+
+
+# ------------------------------------------------------------------------------
+# 11. LINKS
+# ------------------------------------------------------------------------------
+# This template repo:        https://github.com/tenitsky/qwen3-tts-voiceover
+# Start command (raw JSON):  https://raw.githubusercontent.com/tenitsky/qwen3-tts-voiceover/main/runpod-start.json
+# Base image:                https://hub.docker.com/r/runpod/comfyui/tags
+# Qwen3-TTS code:            https://github.com/QwenLM/Qwen3-TTS
+# Models:                    https://huggingface.co/collections/Qwen/qwen3-tts
+# RunPod templates console:  https://console.runpod.io/user/templates
+# RunPod storage docs:       https://docs.runpod.io/pods/storage/types

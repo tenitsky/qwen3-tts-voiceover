@@ -1,0 +1,387 @@
+{
+ "id": "8a1d4e62-0f3b-4c7a-b2e9-5d6c3f1a7b42",
+ "revision": 0,
+ "last_node_id": 30,
+ "last_link_id": 4,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    0
+   ],
+   "size": [
+    560,
+    520
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "Start here",
+   "widgets_values": [
+    "# Qwen3-TTS - Voice Design\n\n**Red nodes are the ones you set.** Stages run left to right with a note under each.\n\n1. **voice_description** - who is speaking and how.\n2. **Run.** Listen to the sample on the Save to Voice Pool node.\n3. Happy with it? Use **Voice Clone** (workflow 3) with the new pool voice for whole scripts.\n\nFull instructions: https://github.com/tenitsky/qwen3-tts-voiceover"
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 2,
+   "type": "MarkdownNote",
+   "pos": [
+    0,
+    570
+   ],
+   "size": [
+    560,
+    560
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About Qwen3-TTS",
+   "widgets_values": [
+    "## About Qwen3-TTS\n\nQwen's open text-to-speech models (Apache-2.0), 1.7B parameters, 10 languages: English, Chinese, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian.\n\n- **CustomVoice** - 9 built-in voices, steerable with a style instruction.\n- **VoiceDesign** - a new voice from a written description.\n- **Base** - clones a voice from a short clip and its transcript.\n\n**The voice pool** is `ComfyUI/input/voices/`: every built-in voice rendered in its native language and in English (`Vivian`, `Vivian_en`, ...), plus the voices you design or add. Each clip has its transcript next to it, so it can be cloned.\n\nLong scripts are rendered in parts at sentence and paragraph breaks and joined with pauses; one part is at most about 2.5 minutes of speech.\n\nCode: https://github.com/QwenLM/Qwen3-TTS"
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 10,
+   "type": "Qwen3TTSLoader",
+   "pos": [
+    730,
+    120
+   ],
+   "size": [
+    500,
+    110
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "localized_name": "tts",
+     "name": "tts",
+     "type": "QWEN3TTS",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Qwen3TTSLoader",
+    "cnr_id": "comfyui-qwen3-tts"
+   },
+   "title": "Qwen3-TTS VoiceDesign (loaded once)",
+   "widgets_values": [
+    "VoiceDesign (voice from a description)",
+    "sdpa"
+   ]
+  },
+  {
+   "id": 3,
+   "type": "MarkdownNote",
+   "pos": [
+    700,
+    320
+   ],
+   "size": [
+    560,
+    300
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About the model",
+   "widgets_values": [
+    "## Model - loaded once\n\nThe three 1.7B models are downloaded by setup to `ComfyUI/models/qwen3-tts/`. One is kept loaded between runs (about 4 GB of VRAM); switching to a workflow with another model reloads in seconds. Each node checks that the loader holds the right model.\n\n**attention:** `sdpa` works everywhere; `flash_attention_2` only if flash-attn is installed."
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  },
+  {
+   "id": 15,
+   "type": "PrimitiveStringMultiline",
+   "pos": [
+    1430,
+    120
+   ],
+   "size": [
+    500,
+    180
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "localized_name": "STRING",
+     "name": "STRING",
+     "type": "STRING",
+     "links": [
+      2,
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "PrimitiveStringMultiline",
+    "cnr_id": "comfy-core"
+   },
+   "title": "Sample text (also the pool transcript)",
+   "widgets_values": [
+    "Hi, I'm the voice you just described. Listen to how I sound, and if you like me, I'll be waiting in the voice pool for your next script."
+   ],
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 20,
+   "type": "Qwen3TTSVoiceDesign",
+   "pos": [
+    1430,
+    350
+   ],
+   "size": [
+    500,
+    520
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "tts",
+     "name": "tts",
+     "type": "QWEN3TTS",
+     "link": 1
+    },
+    {
+     "localized_name": "text",
+     "name": "text",
+     "type": "STRING",
+     "link": 2,
+     "widget": {
+      "name": "text"
+     }
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "links": [
+      4
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Qwen3TTSVoiceDesign",
+    "cnr_id": "comfyui-qwen3-tts"
+   },
+   "title": "Voice Design (describe the voice)",
+   "widgets_values": [
+    "Hi, I'm the voice you just described. Listen to how I sound, and if you like me, I'll be waiting in the voice pool for your next script.",
+    "A calm, warm female narrator in her thirties, clear and friendly, speaking at a relaxed pace.",
+    "English",
+    42,
+    "fixed",
+    400,
+    0.25,
+    0.6
+   ],
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 30,
+   "type": "Qwen3TTSSaveToPool",
+   "pos": [
+    2130,
+    120
+   ],
+   "size": [
+    500,
+    260
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 4
+    },
+    {
+     "localized_name": "transcript",
+     "name": "transcript",
+     "type": "STRING",
+     "link": 3,
+     "widget": {
+      "name": "transcript"
+     }
+    }
+   ],
+   "outputs": [
+    {
+     "localized_name": "audio",
+     "name": "audio",
+     "type": "AUDIO",
+     "links": []
+    },
+    {
+     "localized_name": "voice_name",
+     "name": "voice_name",
+     "type": "STRING",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Qwen3TTSSaveToPool",
+    "cnr_id": "comfyui-qwen3-tts"
+   },
+   "title": "Save to Voice Pool (name it)",
+   "widgets_values": [
+    "my_designed_voice",
+    "Hi, I'm the voice you just described. Listen to how I sound, and if you like me, I'll be waiting in the voice pool for your next script.",
+    false
+   ],
+   "color": "#322",
+   "bgcolor": "#533"
+  },
+  {
+   "id": 4,
+   "type": "MarkdownNote",
+   "pos": [
+    1400,
+    960
+   ],
+   "size": [
+    560,
+    560
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote"
+   },
+   "title": "About stage 2",
+   "widgets_values": [
+    "## Design a voice\n\nDescribe the voice: **age, gender, accent, timbre, mood, pace**. For example: *A deep, gravelly male voice in his fifties with a slow, deliberate Texan drawl.*\n\nThe node reads the short **sample text** in that voice. Like it? It is saved to the **voice pool** under **voice_name**, with its transcript, so **Voice Clone** (workflow 3) can read whole scripts in exactly this voice. Not quite right? Change the description or the seed and run again (turn on overwrite).\n\nVoiceDesign can render a long script directly too, but its voice may vary a little between parts; cloning the saved sample keeps it identical."
+   ],
+   "color": "#222",
+   "bgcolor": "#000"
+  }
+ ],
+ "links": [
+  [
+   1,
+   10,
+   0,
+   20,
+   0,
+   "QWEN3TTS"
+  ],
+  [
+   2,
+   15,
+   0,
+   20,
+   1,
+   "STRING"
+  ],
+  [
+   3,
+   15,
+   0,
+   30,
+   1,
+   "STRING"
+  ],
+  [
+   4,
+   20,
+   0,
+   30,
+   0,
+   "AUDIO"
+  ]
+ ],
+ "groups": [
+  {
+   "id": 1,
+   "title": "1. Model",
+   "bounding": [
+    700,
+    0,
+    560,
+    260
+   ],
+   "color": "#3f789e",
+   "font_size": 26,
+   "flags": {}
+  },
+  {
+   "id": 2,
+   "title": "2. Design",
+   "bounding": [
+    1400,
+    0,
+    560,
+    900
+   ],
+   "color": "#a1309b",
+   "font_size": 26,
+   "flags": {}
+  },
+  {
+   "id": 3,
+   "title": "3. Save to the pool",
+   "bounding": [
+    2100,
+    0,
+    560,
+    410
+   ],
+   "color": "#8a4a4a",
+   "font_size": 26,
+   "flags": {}
+  }
+ ],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.6,
+   "offset": [
+    80,
+    80
+   ]
+  }
+ },
+ "version": 0.4
+}
