@@ -25,7 +25,7 @@
    },
    "title": "Start here",
    "widgets_values": [
-    "# Qwen3-TTS - Add Your Voice to the Pool\n\n**Red nodes are the ones you set.** Stages run left to right with a note under each.\n\n1. **Load Audio** - upload your recording (3-20 s, clean).\n2. **transcript** - exactly what it says; **voice_name** - its name.\n3. **Run**, then use it in **Voice Clone** (workflow 3).\n\nFull instructions: https://github.com/tenitsky/qwen3-tts-voiceover"
+    "# Qwen3-TTS - Add Your Voice to the Pool\n\n**Red nodes are the ones you set.** Stages run left to right with a note under each.\n\n1. **Load Audio** - upload your recording (3-20 s, clean).\n2. **transcript** - exactly what it says; **voice_name** - its name.\n3. **Run.** The voice is saved to the voice pool.\n\nFull instructions: https://github.com/tenitsky/qwen3-tts-voiceover"
    ],
    "color": "#222",
    "bgcolor": "#000"
@@ -164,7 +164,7 @@
    },
    "title": "About this workflow",
    "widgets_values": [
-    "## Add a voice to the pool\n\nUpload a clean recording, **3-20 seconds**, one person speaking, no music, then type **exactly** what it says in **transcript**. Saved as `input/voices/<voice_name>.flac` + `.txt`, ready for **Voice Clone** (workflow 3).\n\nThe workflow opens on `example_recording.flac` (a copy of the pool's Serena_en) with its transcript, so you can see it work. Only clone voices you have the right to use."
+    "## Add a voice to the pool\n\nUpload a clean recording, **3-20 seconds**, one person speaking, no music, then type **exactly** what it says in **transcript**. Saved to the voice pool as `input/voices/<voice_name>.flac` + `.txt`, ready to be cloned.\n\nThe workflow opens on `example_recording.flac` (a copy of the pool's Serena_en) with its transcript, so you can see it work. Only clone voices you have the right to use."
    ],
    "color": "#222",
    "bgcolor": "#000"

@@ -25,7 +25,7 @@
    },
    "title": "Start here",
    "widgets_values": [
-    "# Qwen3-TTS - Voice Design\n\n**Red nodes are the ones you set.** Stages run left to right with a note under each.\n\n1. **voice_description** - who is speaking and how.\n2. **Run.** Listen to the sample on the Save to Voice Pool node.\n3. Happy with it? Use **Voice Clone** (workflow 3) with the new pool voice for whole scripts.\n\nFull instructions: https://github.com/tenitsky/qwen3-tts-voiceover"
+    "# Qwen3-TTS - Voice Design\n\n**Red nodes are the ones you set.** Stages run left to right with a note under each.\n\n1. **voice_description** - who is speaking and how.\n2. **Run.** Listen to the sample on the Save to Voice Pool node.\n3. Happy with it? It is in the voice pool, ready to be cloned.\n\nFull instructions: https://github.com/tenitsky/qwen3-tts-voiceover"
    ],
    "color": "#222",
    "bgcolor": "#000"
@@ -292,7 +292,7 @@
    },
    "title": "About stage 2",
    "widgets_values": [
-    "## Design a voice\n\nDescribe the voice: **age, gender, accent, timbre, mood, pace**. For example: *A deep, gravelly male voice in his fifties with a slow, deliberate Texan drawl.*\n\nThe node reads the short **sample text** in that voice. Like it? It is saved to the **voice pool** under **voice_name**, with its transcript, so **Voice Clone** (workflow 3) can read whole scripts in exactly this voice. Not quite right? Change the description or the seed and run again (turn on overwrite).\n\nVoiceDesign can render a long script directly too, but its voice may vary a little between parts; cloning the saved sample keeps it identical."
+    "## Design a voice\n\nDescribe the voice: **age, gender, accent, timbre, mood, pace**. For example: *A deep, gravelly male voice in his fifties with a slow, deliberate Texan drawl.*\n\nThe node reads the short **sample text** in that voice. Like it? It is saved to the **voice pool** (`input/voices/`) under **voice_name**, with its transcript, ready to be cloned for whole scripts in exactly this voice. Not quite right? Change the description or the seed and run again (turn on overwrite).\n\nVoiceDesign can render a long script directly too, but its voice may vary a little between parts; cloning the saved sample keeps it identical."
    ],
    "color": "#222",
    "bgcolor": "#000"

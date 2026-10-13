@@ -363,6 +363,10 @@ mkdir -p "$WF_DEST"
 # removed only while it is byte-identical to that shipped version, so a copy edited on
 # the pod is kept; a current name is then reinstalled at its new version below.
 RETIRED_WORKFLOWS="
+0f913ce9baf3d2fcae188fe117c267471a0e9f7a669ad822660eb8d8861c8ab0 qwen3tts_1_builtin_voice.json
+d737fc13fe72c0c2d53184cc2f1e669672a25b10ebfaf06ff4efe11d9bc5b5c0 qwen3tts_2_voice_design.json
+15e7daadebf57f57e38a4b7bf2a0164c1c4c5e5cbb348b6257991e71d62e477d qwen3tts_3_voice_clone.json
+c6d434d9d7032014e57d3f8312f6c5bf196dc32f506185a2323de63bfa82da1e qwen3tts_4_add_your_voice.json
 "
 while read -r sum name; do
   [ -n "$name" ] && [ -f "$WF_DEST/$name" ] || continue

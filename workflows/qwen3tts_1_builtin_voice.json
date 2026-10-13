@@ -254,7 +254,7 @@
    },
    "title": "About stage 3",
    "widgets_values": [
-    "## Save\n\nThe voiceover is saved as `output/voiceover/<prefix>_00001.wav` and `.mp3`, and plays on the node. Use the WAV as the voiceover for the LongCat or FlashHead avatar templates."
+    "## Save\n\nThe voiceover is saved as `output/voiceover/<prefix>_00001.wav` and `.mp3`, and plays on the node."
    ],
    "color": "#222",
    "bgcolor": "#000"

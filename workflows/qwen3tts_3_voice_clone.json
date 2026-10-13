@@ -235,7 +235,7 @@
    },
    "title": "About stage 2",
    "widgets_values": [
-    "## Clone a voice\n\nPick a **pool_voice**: any built-in voice (`Ryan`, or `Vivian_en` for Vivian's English recording) or one you designed or added. The pool clip and its transcript are the reference; the voice is analysed once and used for every part, so a long script stays the same voice throughout.\n\n**Your own clip instead:** connect a Load Audio to **reference_audio** and type its exact transcript in **reference_text**, or add it to the pool with workflow 4.\n\nNew pool voices appear after refreshing the browser (R)."
+    "## Clone a voice\n\nPick a **pool_voice**: any built-in voice (`Ryan`, or `Vivian_en` for Vivian's English recording) or one you designed or added. The pool clip and its transcript are the reference; the voice is analysed once and used for every part, so a long script stays the same voice throughout.\n\n**Your own clip instead:** connect a Load Audio to **reference_audio** and type its exact transcript in **reference_text**.\n\nNew pool voices appear after refreshing the browser (R)."
    ],
    "color": "#222",
    "bgcolor": "#000"
@@ -261,7 +261,7 @@
    },
    "title": "About stage 3",
    "widgets_values": [
-    "## Save\n\nThe voiceover is saved as `output/voiceover/<prefix>_00001.wav` and `.mp3`, and plays on the node. Use the WAV as the voiceover for the LongCat or FlashHead avatar templates."
+    "## Save\n\nThe voiceover is saved as `output/voiceover/<prefix>_00001.wav` and `.mp3`, and plays on the node."
    ],
    "color": "#222",
    "bgcolor": "#000"

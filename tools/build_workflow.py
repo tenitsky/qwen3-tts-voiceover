@@ -94,7 +94,7 @@ The three 1.7B models are downloaded by setup to `ComfyUI/models/qwen3-tts/`. On
 
 NOTE_OUTPUT = """## Save
 
-The voiceover is saved as `output/voiceover/<prefix>_00001.wav` and `.mp3`, and plays on the node. Use the WAV as the voiceover for the LongCat or FlashHead avatar templates."""
+The voiceover is saved as `output/voiceover/<prefix>_00001.wav` and `.mp3`, and plays on the node."""
 
 NOTES = {
     "builtin": f"""## Speak
@@ -110,19 +110,19 @@ Pick a **voice**, set the **language** (or Auto), paste the **script**.
 
 Describe the voice: **age, gender, accent, timbre, mood, pace**. For example: *A deep, gravelly male voice in his fifties with a slow, deliberate Texan drawl.*
 
-The node reads the short **sample text** in that voice. Like it? It is saved to the **voice pool** under **voice_name**, with its transcript, so **Voice Clone** (workflow 3) can read whole scripts in exactly this voice. Not quite right? Change the description or the seed and run again (turn on overwrite).
+The node reads the short **sample text** in that voice. Like it? It is saved to the **voice pool** (`input/voices/`) under **voice_name**, with its transcript, ready to be cloned for whole scripts in exactly this voice. Not quite right? Change the description or the seed and run again (turn on overwrite).
 
 VoiceDesign can render a long script directly too, but its voice may vary a little between parts; cloning the saved sample keeps it identical.""",
     "clone": """## Clone a voice
 
 Pick a **pool_voice**: any built-in voice (`Ryan`, or `Vivian_en` for Vivian's English recording) or one you designed or added. The pool clip and its transcript are the reference; the voice is analysed once and used for every part, so a long script stays the same voice throughout.
 
-**Your own clip instead:** connect a Load Audio to **reference_audio** and type its exact transcript in **reference_text**, or add it to the pool with workflow 4.
+**Your own clip instead:** connect a Load Audio to **reference_audio** and type its exact transcript in **reference_text**.
 
 New pool voices appear after refreshing the browser (R).""",
     "add_voice": f"""## Add a voice to the pool
 
-Upload a clean recording, **3-20 seconds**, one person speaking, no music, then type **exactly** what it says in **transcript**. Saved as `input/voices/<voice_name>.flac` + `.txt`, ready for **Voice Clone** (workflow 3).
+Upload a clean recording, **3-20 seconds**, one person speaking, no music, then type **exactly** what it says in **transcript**. Saved to the voice pool as `input/voices/<voice_name>.flac` + `.txt`, ready to be cloned.
 
 The workflow opens on `{EXAMPLE_RECORDING}` (a copy of the pool's Serena_en) with its transcript, so you can see it work. Only clone voices you have the right to use.""",
 }
@@ -135,14 +135,13 @@ def note_start(w):
                     "**Run.** The voiceover plays on the Save node."],
         "design": ["**voice_description** - who is speaking and how.",
                    "**Run.** Listen to the sample on the Save to Voice Pool node.",
-                   "Happy with it? Use **Voice Clone** (workflow 3) with the new pool voice "
-                   "for whole scripts."],
+                   "Happy with it? It is in the voice pool, ready to be cloned."],
         "clone": ["**pool_voice** - a built-in voice or one you designed or added.",
                   "**Script** - paste it; blank lines separate paragraphs.",
                   "**Run.** The voiceover plays on the Save node."],
         "add_voice": ["**Load Audio** - upload your recording (3-20 s, clean).",
                       "**transcript** - exactly what it says; **voice_name** - its name.",
-                      "**Run**, then use it in **Voice Clone** (workflow 3)."],
+                      "**Run.** The voice is saved to the voice pool."],
     }[w["kind"]]
     lines = "\n".join(f"{i}. {s}" for i, s in enumerate(steps, 1))
     return f"""# Qwen3-TTS - {TITLES[w['kind']]}
