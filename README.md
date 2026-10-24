@@ -1,5 +1,7 @@
 # Qwen3-TTS Voiceover: RunPod ComfyUI template
 
+> 📖 **Step-by-step guide:** [Free AI voiceovers with Qwen3-TTS: 9 voices, voice design and cloning](https://tenitsky.com/guides/qwen3-tts-voiceovers/) · more free templates and ComfyUI guides at [tenitsky.com](https://tenitsky.com/)
+
 A one-shot template that installs **Qwen3-TTS** (Alibaba Qwen, Apache-2.0) on RunPod with
 ComfyUI and JupyterLab, for **voiceovers of any length** in 10 languages:
 
@@ -221,3 +223,14 @@ a full first boot and reboot of `setup.sh` against an offline image fixture.
 ## Credits
 
 [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) (Alibaba Qwen team, Apache-2.0).
+
+<!-- tenitsky.com links -->
+## More templates and guides
+
+- 📖 [A consistent talking avatar from one photo with LTX-2.5 lip sync](https://tenitsky.com/guides/ltx-2-5-talking-avatar/)
+- 🐙 [LongCat-Video-Avatar 1.5: long-form talking avatar](https://github.com/tenitsky/longcat-avatar)
+- 🐙 [SoulX-FlashHead Pro: long talking heads on one GPU](https://github.com/tenitsky/flashhead-pro-avatar)
+- ☁️ New to RunPod? [Introduction to RunPod: running ComfyUI in the cloud](https://tenitsky.com/guides/introduction-to-runpod/)
+- 🎓 New to ComfyUI? [ComfyUI for beginners: build a text-to-image workflow node by node](https://tenitsky.com/guides/comfyui-node-basics-text-to-image/)
+- 🌐 All templates and guides: [tenitsky.com](https://tenitsky.com/)
+- 📺 YouTube: [AI Art Pipeline](https://www.youtube.com/@aiartpipeline)
